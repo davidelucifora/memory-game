@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import helpers from "./components/helpers";
 import LoadingSpinner from "./components/spinner";
+import Level from "./components/level";
 import "./App.css";
 
 function App() {
   const [game, setGame] = useState({
     level: 1, // Initial Level
-    noOfCards: 4, // Defines how many cards for first level
+    noOfCards: 20, // Defines how many cards for first level
     totalCharacters: 826,
     currentScore: 0,
     bestScore: 0,
@@ -31,16 +32,20 @@ function App() {
       );
 
       const data = await response.json();
+      setAllCards(data);
       setSpinner(false);
-      return data;
     }
     // Pass data fetched to allCards state
-    setAllCards(getAPIData());
+    getAPIData();
   }, [game.level]);
 
   return (
     <div className="App">
-      {spinner && <LoadingSpinner />}
+      {spinner ? (
+        <LoadingSpinner />
+      ) : (
+        <Level level={game.level} cards={allCards} />
+      )}
       <button>Check</button>
     </div>
   );
