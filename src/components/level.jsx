@@ -1,42 +1,43 @@
 import React from "react";
 import Spinner from "./spinner";
 import { useState } from "react";
-
-function Card(props) {
-  // Destructure props.card
-  const { card } = props;
-  // When an image loads, add it to the level loadedCounter
-  function handleOnLoad() {
-    props.updateLoadedCounter((prevCounter) => prevCounter + 1);
-  }
-  return (
-    <div className="card">
-      <h2>{card.name}</h2>
-      <img src={card.image} onLoad={handleOnLoad}></img>
-    </div>
-  );
-}
+import { useEffect } from "react";
+import Card from "./card";
+import helpers from "./helpers";
 
 export default function Level(props) {
   // Keeps track of fully loaded images
   const [loadedCounter, setLoadedCounter] = useState(0);
+  const allCards = props.allCards;
+
+  function addToCurrentScore() {
+    props.setCurrentScore((prevScore) => prevScore + 1);
+  }
 
   // List cards
-  const listCards = props.cards.map((card) => {
+  const listCards = allCards.map((card) => {
     return (
-      <Card card={card} key={card.id} updateLoadedCounter={setLoadedCounter} />
+      <Card
+        card={card}
+        key={card.id}
+        updateLoadedCounter={setLoadedCounter}
+        setAllCards={props.setAllCards}
+        addToCurrentScore={addToCurrentScore}
+      />
     );
   });
+
   return (
     <div className="level">
       <h1>Level {props.level}</h1>
-      {loadedCounter < props.cards.length && <Spinner />}
+      {loadedCounter < allCards.length && <Spinner />}
       <div
         className={`list-cards-wrapper ${
-          loadedCounter < props.cards.length && "hide"
+          loadedCounter < allCards.length && "hide"
         }`}
       >
-        {listCards}
+        {helpers.shuffleArray(listCards)}
+        {/* <p>{correctCards}</p> */}
       </div>
     </div>
   );

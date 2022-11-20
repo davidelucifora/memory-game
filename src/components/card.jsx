@@ -2,22 +2,23 @@ import React from "react";
 import helpers from "./helpers";
 
 export default function Card(props) {
+  // Destructure props.card
   // When an image loads, add it to the level loadedCounter
   function handleOnLoad() {
     props.updateLoadedCounter((prevCounter) => prevCounter + 1);
   }
 
   function handleOnClick() {
-    props.updateCardsArray((prevArray) =>
+    props.setAllCards((prevArray) =>
       prevArray.map((card) => {
         if (card.id === props.card.id) {
           if (card.isSelected) {
-            alert("game over");
-            return card;
+            console.log("game over");
           } else {
-            props.updateScore();
+            props.addToCurrentScore();
             return { ...card, isSelected: true };
           }
+          return card;
         } else return card;
       })
     );

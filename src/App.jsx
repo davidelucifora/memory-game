@@ -8,11 +8,10 @@ import "./App.css";
 function App() {
   const [game, setGame] = useState({
     level: 1, // Initial Level
-    noOfCards: 20, // Defines how many cards for first level
+    noOfCards: 4, // Defines how many cards for first level
     totalCharacters: 826,
-    currentScore: 0,
-    bestScore: 0,
   });
+  const [currentScore, setCurrentScore] = useState(0);
 
   // Array of all Cards to show in level
   const [allCards, setAllCards] = useState([]);
@@ -44,9 +43,16 @@ function App() {
       {spinner ? (
         <LoadingSpinner />
       ) : (
-        <Level level={game.level} cards={allCards} />
+        <Level
+          level={game.level}
+          allCards={allCards}
+          setAllCards={setAllCards}
+          setCurrentScore={setCurrentScore}
+        />
       )}
       <button>Check</button>
+      <p>{console.table([...allCards, currentScore])}</p>
+      <p>{currentScore}</p>
     </div>
   );
 }
@@ -54,11 +60,29 @@ function App() {
 export default App;
 
 /**Let's pseudocode this baby
- * Ok we need basically 2 components, both reusable
- * 1. The level component. It takes as props the number of cards
- * and the current level.
- * These should live in the app state together with current score and best score (basically two counters)
  *
+ *
+ * Let's figure out the scoreboard.
+ * The score increases whenever a user clicks a card that wasnt' previously clicked
+ * There is also a Best score.
+ * The logic should be the following:
+ * 1. I click the card.
+ *  1.1 if it's selected game over
+ *  1.2 if it ain't, increase the score and flag as selected
+ *  when increasing the score, if the current score is higher than best score update them together
+ *  Should it be bestScore = currentScore or just bestScore++ ?
+ *  Well, let's say you start from 0 0
+ *  card clicked.
+ *  score added
+ *  is best score lower than current? Yes -> bestScore + 1
+ *  I guess + 1 would work
+ *
+ * Now in terms of react: I guess There is a scoreboard component
+ * Well the currentScore could just count in the App state the number of cards that are selected
+ * then we would look at the bestScore
+ * this could be a useEffect maybe(?)
+ * How do I check? I filter all the isSelected and it returns an array. Its lenght is the currentScore
+ * then I checck
  * So first thing the app component renders, i useEffect to fetch 4 cards and assign lvl: 1 to the lvl state
  * in the App.
  * Then I render a Level component passing the lvl number and number of cards as props
