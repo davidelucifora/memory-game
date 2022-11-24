@@ -13,7 +13,7 @@ export default function Card(props) {
       prevArray.map((card) => {
         if (card.id === props.card.id) {
           if (card.isSelected) {
-            console.log("game over");
+            props.gameOver();
           } else {
             props.addToCurrentScore();
             return { ...card, isSelected: true };
@@ -22,6 +22,7 @@ export default function Card(props) {
         } else return card;
       })
     );
+    // props.checkForWin();
   }
   return (
     <div className="card" onClick={handleOnClick}>

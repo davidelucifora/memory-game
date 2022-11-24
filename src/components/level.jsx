@@ -11,6 +11,7 @@ export default function Level(props) {
   const allCards = props.allCards;
 
   function addToCurrentScore() {
+    // props.checkForWin();
     props.setCurrentScore((prevScore) => prevScore + 1);
   }
 
@@ -23,6 +24,8 @@ export default function Level(props) {
         updateLoadedCounter={setLoadedCounter}
         setAllCards={props.setAllCards}
         addToCurrentScore={addToCurrentScore}
+        gameOver={props.gameOver}
+        // checkForWin={props.checkForWin}
       />
     );
   });
@@ -37,7 +40,6 @@ export default function Level(props) {
         }`}
       >
         {helpers.shuffleArray(listCards)}
-        {/* <p>{correctCards}</p> */}
       </div>
     </div>
   );
