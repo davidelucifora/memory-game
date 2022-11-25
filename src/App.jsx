@@ -79,6 +79,7 @@ function App() {
     }
   }
 
+  /**Random change */
   return (
     <div className="App">
       <div className="scoreboard">
