@@ -85,6 +85,7 @@ function App() {
       <div className="scoreboard">
         <Scoreboard
           currentScore={currentScore}
+          git
           bestScore={bestScore}
           setBestScore={setBestScore}
         />
