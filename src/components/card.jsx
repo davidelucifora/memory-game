@@ -9,20 +9,20 @@ export default function Card(props) {
   }
 
   function handleOnClick() {
-    props.setAllCards((prevArray) =>
-      prevArray.map((card) => {
-        if (card.id === props.card.id) {
-          if (card.isSelected) {
-            props.gameOver();
-          } else {
-            props.addToCurrentScore();
-            return { ...card, isSelected: true };
-          }
-          return card;
-        } else return card;
-      })
-    );
-    // props.checkForWin();
+    const updatedCards = props.allCards.map((card) => {
+      if (card.id === props.card.id) {
+        if (card.isSelected) {
+          props.gameOver();
+        } else {
+          props.addToCurrentScore();
+          return { ...card, isSelected: true };
+        }
+        return card;
+      } else return card;
+    });
+
+    props.setAllCards(updatedCards);
+    props.checkForWin(updatedCards);
   }
   return (
     <div className="card" onClick={handleOnClick}>

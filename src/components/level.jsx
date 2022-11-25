@@ -22,10 +22,11 @@ export default function Level(props) {
         card={card}
         key={card.id}
         updateLoadedCounter={setLoadedCounter}
+        allCards={allCards}
         setAllCards={props.setAllCards}
         addToCurrentScore={addToCurrentScore}
         gameOver={props.gameOver}
-        // checkForWin={props.checkForWin}
+        checkForWin={props.checkForWin}
       />
     );
   });

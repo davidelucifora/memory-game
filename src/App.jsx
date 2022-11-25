@@ -65,14 +65,18 @@ function App() {
     setCurrentScore(0);
   }
 
-  function checkForWin() {
+  function checkForWin(cards) {
     if (
-      allCards.every((card) => {
+      cards.every((card) => {
         return card.hasOwnProperty("isSelected") && card.isSelected;
       })
     ) {
-      alert("yo");
-    } else gameOver();
+      setGame({
+        ...game,
+        level: (game.level += 1),
+        noOfCards: (game.noOfCards += 4),
+      });
+    }
   }
 
   return (
@@ -93,9 +97,9 @@ function App() {
           setAllCards={setAllCards}
           setCurrentScore={setCurrentScore}
           gameOver={gameOver}
+          checkForWin={checkForWin}
         />
       )}
-      <button onClick={checkForWin}>Check</button>
       <p>{console.table([...allCards, currentScore])}</p>
     </div>
   );
